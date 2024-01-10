@@ -12,8 +12,8 @@ class BaseModel:
     """
     def __init__(self):
         self.id = str(uuid.uuid4())
-        self.created_at = datetime.now().isoformat()
-        self.updated_at = datetime.now().isoformat()
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
 
 
     def __str__(self):
@@ -27,7 +27,7 @@ class BaseModel:
         """
         update the Updated_at field
         """
-        self.updated_at = datetime.now().isoformat()
+        self.updated_at = datetime.now()
 
 
     def to_dict(self):
@@ -38,6 +38,9 @@ class BaseModel:
         my_dict = {}
         print(self.__dict__)
         for k, v in self.__dict__.items():
+            if k == "updated_at" or k == "created_at":
+                my_dict[k] = v.isoformat()
+            else:
                 my_dict[k] = v
         my_dict["__class__"] = self.__class__.__name__
         return my_dict
