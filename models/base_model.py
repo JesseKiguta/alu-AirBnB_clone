@@ -36,7 +36,6 @@ class BaseModel:
         the obj
         """
         my_dict = {}
-        print(self.__dict__)
         for k, v in self.__dict__.items():
             if k == "updated_at" or k == "created_at":
                 my_dict[k] = v.isoformat()
