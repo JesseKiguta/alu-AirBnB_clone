@@ -28,7 +28,7 @@ class FileStorage:
         """
         save the __odject dict in a file
         """
-        my_dict = {k: v.to_dict() for k,v in FileStorage.__objects.items()}
+        my_dict = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
         with open(FileStorage.__file_path, 'w') as file:
             json.dump(my_dict, file)
 
