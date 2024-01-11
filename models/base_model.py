@@ -2,9 +2,10 @@
 """
 Base model from which oyther models will inherites
 """
-import uuid
-from datetime import datetime
 
+from datetime import datetime
+from . import storage
+import uuid
 
 class BaseModel:
     """
@@ -23,6 +24,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
 
     def __str__(self):
@@ -36,6 +38,7 @@ class BaseModel:
         """
         update the Updated_at field
         """
+        storage.save()
         self.updated_at = datetime.now()
 
 
