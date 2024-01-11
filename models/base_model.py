@@ -10,10 +10,19 @@ class BaseModel:
     """
     Base Model
     """
-    def __init__(self):
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+    def __init__(self, *args, **kwargs):
+        if kwargs:
+            for k, v in kwargs.items():
+                if k == "__class__":
+                    continue
+                if k == "created_at" or k == "updated_at":
+                    setattr(self, k, datetime.fromisoformat(v))
+                else:
+                    setattr(self, k, v)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
 
     def __str__(self):
