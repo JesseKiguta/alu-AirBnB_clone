@@ -4,13 +4,14 @@ console
 """
 from models.amenity import Amenity
 from models.base_model import BaseModel
+import cmd
 from models.city import City
 from models.place import Place
+import re
 from models.review import Review
 from models.state import State
-from models.user import User
-import cmd
 from models import storage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -22,6 +23,37 @@ class HBNBCommand(cmd.Cmd):
     classes = {"Amenity": Amenity, "BaseModel": BaseModel,
                "City": City, "Place": Place, "Review": Review,
                "State": State, "User": User}
+
+    def _formatter(self, args):
+        """
+        format the args
+        """
+        if "." in args:
+            res = []
+            double_quotted = re.findall(r'"([^"]*)"', args)
+            number = re.search(r'(?<!\S)(\d+)\b', args)
+            values = {"id": None, "attr_name": None, "attr_value": None}
+            for i in range(len(double_quotted)):
+                values[list(values.keys())[i]] = double_quotted[i]
+            if number is None:
+                values["attr_value"] = '"' + values.get("attr_value") + '"'
+            else:
+                values["attr_value"] = number.group(0)
+            to_del = []
+            for k, v in values.items():
+                if v is None:
+                    to_del.append(k)
+            for ele in to_del:
+                del values[ele]
+            args = args.split('.')
+            cls = args[0]
+            res.append(args[1].split('(')[0])
+            res.append(cls)
+            for v in values.values():
+                res.append(v)
+            return " ".join(res)
+        else:
+            return args
 
     def do_quit(self, args):
         """
@@ -45,8 +77,7 @@ class HBNBCommand(cmd.Cmd):
         """
         preprocess the arg
         """
-
-        return args
+        return (self._formatter(args))
 
     def do_create(self, args):
         """
@@ -134,6 +165,7 @@ class HBNBCommand(cmd.Cmd):
         update an object by add or updating an attribute
         ex: update BaseModel 1234-1234-1234 email "aibnb@mail.com"
         """
+        floats = ['longitude', 'latitude']
         args = args.split()
         try:
             cls = args[0]
@@ -162,11 +194,27 @@ class HBNBCommand(cmd.Cmd):
             value = args[3]
             if '"' in value:
                 value = value.strip('"')
+            else:
+                value = int(value) if attr_name not in floats else float(value)
         except Exception:
             print("** value missing **")
             return
         setattr(obj, attr_name, value)
         obj.save()
+
+    def do_count(self, args):
+        """
+        return the number of instance of a class
+        """
+        count = 0
+        cls = HBNBCommand.classes.get(args)
+        if cls is None:
+            print("** class doesn't exist **")
+        else:
+            for obj in storage.all():
+                if obj.startswith(cls.__name__):
+                    count += 1
+            print(count)
 
 
 if __name__ == "__main__":
