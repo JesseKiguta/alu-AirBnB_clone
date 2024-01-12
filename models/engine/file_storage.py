@@ -37,8 +37,15 @@ class FileStorage:
         """
         reload all objects from file
         """
+        from models.amenity import Amenity
         from models.base_model import BaseModel
-        myClasses = {"BaseModel": BaseModel}
+        from models.city import City
+        from models.place import Place
+        from models.review import Review
+        from models.state import State
+        from models.user import User
+        myClasses = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City, "Place": Place,
+                     "Review": Review, "State": State, "User": User}
         try:
             with open(FileStorage.__file_path) as file:
                 data = json.load(file)

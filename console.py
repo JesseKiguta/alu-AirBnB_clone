@@ -2,7 +2,13 @@
 """
 console
 """
+from models.amenity import Amenity
 from models.base_model import BaseModel
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
 import cmd
 from models import storage
 
@@ -13,7 +19,8 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
-    classes = {"BaseModel": BaseModel}
+    classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City, "Place": Place,
+               "Review": Review, "State": State, "User": User}
 
 
     def do_quit(self, args):
@@ -127,7 +134,7 @@ class HBNBCommand(cmd.Cmd):
                 print(res)
 
 
-    def do_update(self, args):
+    def do_update(args):
         """
         update an object by add or updating an attribute
         ex: update BaseModel 1234-1234-1234 email "aibnb@mail.com"
