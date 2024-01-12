@@ -29,29 +29,39 @@ class HBNBCommand(cmd.Cmd):
         format the args
         """
         if "." in args:
-            res = []
-            double_quotted = re.findall(r'"([^"]*)"', args)
-            number = re.search(r'(?<!\S)(\d+)\b', args)
-            values = {"id": None, "attr_name": None, "attr_value": None}
-            for i in range(len(double_quotted)):
-                values[list(values.keys())[i]] = double_quotted[i]
-            if number is None:
-                values["attr_value"] = '"' + values.get("attr_value") + '"'
+            iD = re.findall(r'"([^"]*)"', args)[0]
+            my_dict = re.findall(r'\{.*?\}', args)
+            if my_dict:
+                args = args.split('.')
+                cls = args[0]
+                func = args[1].split('(')[0]
+                my_dict = (my_dict[0])
+                res = [func, cls, iD, my_dict]
+                return " ".join(res)
             else:
-                values["attr_value"] = number.group(0)
-            to_del = []
-            for k, v in values.items():
-                if v is None:
-                    to_del.append(k)
-            for ele in to_del:
-                del values[ele]
-            args = args.split('.')
-            cls = args[0]
-            res.append(args[1].split('(')[0])
-            res.append(cls)
-            for v in values.values():
-                res.append(v)
-            return " ".join(res)
+                res = []
+                double_quotted = re.findall(r'"([^"]*)"', args)
+                number = re.search(r'(?<!\S)(\d+)\b', args)
+                values = {"id": None, "attr_name": None, "attr_value": None}
+                for i in range(len(double_quotted)):
+                    values[list(values.keys())[i]] = double_quotted[i]
+                if number is None:
+                    values["attr_value"] = '"' + values.get("attr_value") + '"'
+                else:
+                    values["attr_value"] = number.group(0)
+                to_del = []
+                for k, v in values.items():
+                    if v is None:
+                        to_del.append(k)
+                for ele in to_del:
+                    del values[ele]
+                args = args.split('.')
+                cls = args[0]
+                res.append(args[1].split('(')[0])
+                res.append(cls)
+                for v in values.values():
+                    res.append(v)
+                return " ".join(res)
         else:
             return args
 
@@ -160,13 +170,13 @@ class HBNBCommand(cmd.Cmd):
                         res.append(str(v))
                 print(res)
 
-    def do_update(self, args):
+    def do_update(self, arg):
         """
         update an object by add or updating an attribute
         ex: update BaseModel 1234-1234-1234 email "aibnb@mail.com"
         """
         floats = ['longitude', 'latitude']
-        args = args.split()
+        args = arg.split()
         try:
             cls = args[0]
             if cls not in HBNBCommand.classes:
@@ -186,9 +196,15 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         try:
-            attr_name = args[2]
-        except Exception:
-            print("** attribute name missing **")
+            my_dict = re.findall(r'\{.*?\}', arg)[0]
+            if isinstance(eval(my_dict), dict):
+                for k, v in eval(my_dict).items():
+                    setattr(obj, k, v)
+                return
+            else:
+                attr_name = args[2]
+        except Exception as e:
+            print(f" {e} ** attribute name missing **")
             return
         try:
             value = args[3]
