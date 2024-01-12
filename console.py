@@ -57,6 +57,8 @@ class HBNBCommand(cmd.Cmd):
                 obj = cls()
                 obj.save()
                 print(obj.id)
+
+
     def do_show(self, args):
         """
         show the dict representation of an object
@@ -76,6 +78,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
             else:
                 print(obj)
+
 
     def do_destroy(self, args):
         """
@@ -98,7 +101,6 @@ class HBNBCommand(cmd.Cmd):
             else:
                 del storage.all()[key]
                 storage.save()
-
 
 
     def do_all(self, args):
@@ -163,8 +165,6 @@ class HBNBCommand(cmd.Cmd):
             return
         setattr(obj, attr_name, value)
         obj.save()
-
-
 
 
 if __name__ == "__main__":
