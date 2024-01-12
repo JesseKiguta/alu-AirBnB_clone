@@ -2,10 +2,10 @@
 """
 Base model from which oyther models will inherites
 """
-
 from datetime import datetime
 from . import storage
 import uuid
+
 
 class BaseModel:
     """
@@ -25,13 +25,11 @@ class BaseModel:
             self.created_at = self.updated_at = datetime.now()
             storage.new(self)
 
-
     def __str__(self):
         """
         string representation of the obj
         """
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
-
 
     def save(self):
         """
@@ -40,10 +38,9 @@ class BaseModel:
         self.updated_at = datetime.now()
         storage.save()
 
-
     def to_dict(self):
         """
-        returns a dictionary representation of 
+        returns a dictionary representation of
         the obj
         """
         my_dict = {}

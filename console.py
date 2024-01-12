@@ -19,9 +19,9 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
-    classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City, "Place": Place,
-               "Review": Review, "State": State, "User": User}
-
+    classes = {"Amenity": Amenity, "BaseModel": BaseModel,
+               "City": City, "Place": Place, "Review": Review,
+               "State": State, "User": User}
 
     def do_quit(self, args):
         """
@@ -48,7 +48,6 @@ class HBNBCommand(cmd.Cmd):
 
         return args
 
-
     def do_create(self, args):
         """
         create and save a new object
@@ -64,7 +63,6 @@ class HBNBCommand(cmd.Cmd):
                 obj = cls()
                 obj.save()
                 print(obj.id)
-
 
     def do_show(self, args):
         """
@@ -85,7 +83,6 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
             else:
                 print(obj)
-
 
     def do_destroy(self, args):
         """
@@ -108,7 +105,6 @@ class HBNBCommand(cmd.Cmd):
             else:
                 del storage.all()[key]
                 storage.save()
-
 
     def do_all(self, args):
         """
@@ -133,7 +129,6 @@ class HBNBCommand(cmd.Cmd):
                         res.append(str(v))
                 print(res)
 
-
     def do_update(args):
         """
         update an object by add or updating an attribute
@@ -145,7 +140,7 @@ class HBNBCommand(cmd.Cmd):
             if cls not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-        except:
+        except Exception:
             print("** class name missing **")
             return
         try:
@@ -155,19 +150,19 @@ class HBNBCommand(cmd.Cmd):
             if obj is None:
                 print("** no instance found **")
                 return
-        except:
+        except Exception:
             print("** instance id missing **")
             return
         try:
             attr_name = args[2]
-        except:
+        except Exception:
             print("** attribute name missing **")
             return
         try:
             value = args[3]
             if '"' in value:
                 value = value.strip('"')
-        except:
+        except Exception:
             print("** value missing **")
             return
         setattr(obj, attr_name, value)
@@ -176,4 +171,3 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
-
