@@ -129,7 +129,7 @@ class HBNBCommand(cmd.Cmd):
                         res.append(str(v))
                 print(res)
 
-    def do_update(args):
+    def do_update(self, args):
         """
         update an object by add or updating an attribute
         ex: update BaseModel 1234-1234-1234 email "aibnb@mail.com"
