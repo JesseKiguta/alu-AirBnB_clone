@@ -1,8 +1,9 @@
 """
-aminety model
+amenity model
 """
 from models.base_model import BaseModel
 
 
 class Amenity(BaseModel):
-    pass
+    """Amenity class that inherits from BaseModel"""
+    name = ''
