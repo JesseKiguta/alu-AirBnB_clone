@@ -166,7 +166,7 @@ class HBNBCommand(cmd.Cmd):
         ex: all
         or
         ex: all BaseModel
-        """
+a        """
         res = []
         args = args.split()
         if len(args) < 1:
@@ -200,7 +200,7 @@ class HBNBCommand(cmd.Cmd):
             return
         try:
             iD = args[1]
-            key = cls + "." + iD
+            key = cls + "." + iD.strip('"')
             obj = storage.all().get(key)
             if obj is None:
                 print("** no instance found **")
@@ -218,7 +218,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 attr_name = args[2]
         except Exception as e:
-            print(f"{e} ** attribute name missing **")
+            print("** attribute name missing **")
             return
         try:
             value = args[3]

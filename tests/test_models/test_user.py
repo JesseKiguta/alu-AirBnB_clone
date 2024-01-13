@@ -27,14 +27,12 @@ class TestUser(unittest.TestCase):
         self.assertTrue(isinstance(inst.last_name, str))
         self.assertTrue(isinstance(inst.first_name, str))
 
-
     def test_isInstance(self):
         """
         doc
         """
         inst = User()
         self.assertTrue(isinstance(inst, BaseModel))
-
 
 
 if __name__ == '__main__':

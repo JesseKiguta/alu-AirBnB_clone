@@ -11,12 +11,12 @@ class TestAmenity(unittest.TestCase):
     """
     test Amenity
     """
-    def test_isBaseModelInstance(self):
+    def test_isInstance(self):
         """
         test if it is an instance of BaseModel
         """
         inst = Amenity()
-        self.assertIsInstance(inst, BaseModel)
+        self.assertTrue(isinstance(inst, BaseModel))
 
     def test_attr(self):
         """

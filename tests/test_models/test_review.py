@@ -6,7 +6,6 @@ from models.base_model import BaseModel
 from models.review import Review
 
 
-
 class TestReview(unittest.TestCase):
     def test_attr(self):
         """
@@ -26,6 +25,7 @@ class TestReview(unittest.TestCase):
     def test_isInstance(self):
         inst = Review()
         self.assertTrue(isinstance(inst, BaseModel))
+
 
 if __name__ == '__main__':
     unittest.main()

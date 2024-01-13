@@ -19,7 +19,10 @@ class TestBaseModel(unittest.TestCase):
         """
         testing the save method
         """
-        pass
+        Bm = BaseModel()
+        first_updated = Bm.updated_at
+        Bm.save()
+        self.assertNotEqual(first_updated, Bm.updated_at)
 
     def test_to_dict(self):
         """
