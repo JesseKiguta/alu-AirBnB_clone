@@ -1,3 +1,6 @@
+"""
+doc
+"""
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
@@ -5,7 +8,13 @@ from models.place import Place
 
 
 class TestPlace(unittest.TestCase):
+    """
+    doc
+    """
     def test_instance(self):
+        """
+        doc
+        """
         inst = Place()
         self.assertTrue(hasattr(inst, "city_id"))
         self.assertTrue(hasattr(inst, "user_id"))
@@ -19,10 +28,16 @@ class TestPlace(unittest.TestCase):
         self.assertTrue(hasattr(inst, "amenity_id"))
 
     def test_isBaseModelInstance(self):
+        """
+        doc
+        """
         inst = Place()
         self.assertTrue(isinstance(inst, BaseModel))
 
     def test_attr(self):
+        """
+        doc
+        """
         inst = Place()
         self.assertTrue(isinstance(inst.city_id, str))
         self.assertTrue(isinstance(inst.user_id, str))
