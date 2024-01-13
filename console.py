@@ -43,7 +43,6 @@ class HBNBCommand(cmd.Cmd):
                 args = args.split('.')
                 cls = args[0]
                 func = args[1].split('(')[0]
-                print(" ".join([func, cls]))
                 return " ".join([func, cls])
             elif len(quotted) == 1:
                 iD = re.findall(r'"([^"]*)"', args)[0]
