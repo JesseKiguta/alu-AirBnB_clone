@@ -29,15 +29,28 @@ class HBNBCommand(cmd.Cmd):
         format the args
         """
         if "." in args:
-            iD = re.findall(r'"([^"]*)"', args)[0]
             my_dict = re.findall(r'\{.*?\}', args)
+            quotted = re.findall(r'"([^"]*)"', args)
             if my_dict:
+                iD = re.findall(r'"([^"]*)"', args)[0]
                 args = args.split('.')
                 cls = args[0]
                 func = args[1].split('(')[0]
                 my_dict = (my_dict[0])
                 res = [func, cls, iD, my_dict]
                 return " ".join(res)
+            elif len(quotted) == 0:
+                args = args.split('.')
+                cls = args[0]
+                func = args[1].split('(')[0]
+                print(" ".join([func, cls]))
+                return " ".join([func, cls])
+            elif len(quotted) == 1:
+                iD = re.findall(r'"([^"]*)"', args)[0]
+                args = args.split('.')
+                cls = args[0]
+                func = args[1].split('(')[0]
+                return " ".join([func, cls, iD])
             else:
                 res = []
                 double_quotted = re.findall(r'"([^"]*)"', args)
@@ -196,15 +209,16 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         try:
-            my_dict = re.findall(r'\{.*?\}', arg)[0]
-            if isinstance(eval(my_dict), dict):
-                for k, v in eval(my_dict).items():
-                    setattr(obj, k, v)
-                return
+            my_dict = re.findall(r'\{.*?\}', arg)
+            if len(my_dict) != 0:
+                if isinstance(eval(my_dict[0]), dict):
+                    for k, v in eval(my_dict[0]).items():
+                        setattr(obj, k, v)
+                    return
             else:
                 attr_name = args[2]
         except Exception as e:
-            print(f" {e} ** attribute name missing **")
+            print(f"{e} ** attribute name missing **")
             return
         try:
             value = args[3]
